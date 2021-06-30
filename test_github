@@ -4,4 +4,4 @@ console.log("hello");
 console.log("hello again");
 
 // test test
-console.log("this is another test")
+console.log("this is another test");
