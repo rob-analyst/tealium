@@ -1,0 +1,94 @@
+// Testing dataStream,subscribe functionality
+if (window.location.href.indexOf('be.synxis.com') > 0) 
+{
+window.dataStream.subscribe('tealium', ['app', 'checkout', 'addons', 'confirmation'], function(data, event){
+    var d = data;
+    // Testing a function for the correct brand value
+    function brand_test(config) {
+        if (config === 'TBL') {
+            return ['TUI BLUE'];
+        } else if (config === 'ROB') {
+            return ['Robinson'];
+        } else if (config === 'TML') {
+            return ['TUI Magic Life'];
+        } else {
+            return ['unknown'];
+        }
+    }
+    
+    window.utag_data = window.utag_data || {};
+    if(event === 'app' || event === 'checkout' || event === 'addons'){
+        console.log('tealium: ' + event);
+        var trackingDataCheck ={
+            "booking_system": "sabre", // Static value
+            "currency": d.CurrCode || "",
+            "ecommerce_action": "checkout", // Static value
+            "ecommerce_order_adults": d.AdultQty.toString() || "",
+            "ecommerce_order_children": d.ChildQty.toString() || "",
+            "ecommerce_order_country": d.Hotel.Country || "",
+            //"ecommerce_order_days_until_departure": d.DaysToCheckIn.toString() || "",
+            "ecommerce_order_departure_date": d.ArrivalDt || "",
+            "ecommerce_order_duration_in_nights": d.NightsQty.toString() || "",
+            "ecommerce_order_number_of_rooms": d.RmQty.toString() || "",
+            "ecommerce_order_pax": d.GuestQty.toString() || "",
+            "ecommerce_order_return_date": d.DepartDt || "",
+            "ecommerce_order_roomtype": d.RoomName || "",            
+            "ecommerce_order_order_total": d.TotalCostWithTax.toString() || "",
+            "ecommerce_product_brand": brand_test(d.ConfigCode) || "",
+            "ecommerce_product_id": [d.HOTEL_ID] || "",
+            "ecommerce_product_name": [d.HName] || "",
+            "ecommerce_product_price": [d.TotalCostWithTax] || "",
+            "ecommerce_product_quantity": ["1"] || "",
+            "ibe_version": "sabre",
+            "page_country": d.LangCode.slice(-2) || "",
+            "page_funnel": "club only",
+            "page_language": d.LangCode.slice(0,2) || "",
+            "page_subtype": event || "",            
+            "page_type": "sabre ibe",
+            "roomcode": d.RoomCode || ""
+        };
+        console.log(trackingDataCheck);
+        window.utag_data = trackingDataCheck;
+        window.utag.view(trackingDataCheck);
+        //
+    } else if (event === 'confirmation'){
+        console.log('tealium: ' + event);
+        var trackingDataConfirm = {
+            "booking_system": "sabre", // Static value
+            "currency": d.CurrCode || "",
+            "ecommerce_action": "purchase", // Static value
+            "ecommerce_order_adults": d.AdultQty.toString() || "",
+            "ecommerce_order_children": d.ChildQty.toString() || "",
+            "ecommerce_order_country": d.Hotel.Country || "",
+            "ecommerce_order_days_until_departure": d.DaysToCheckIn.toString() || "",
+            //"ecommerce_order_departure_date": d.ArrivalDt || "",
+            "ecommerce_order_duration_in_nights": d.NightsQty.toString() || "",
+            "ecommerce_order_number_of_rooms": d.RmQty.toString() || "",
+            "ecommerce_order_id": d.ItineraryNo || "",
+            "ecommerce_order_pax": d.GuestQty.toString() || "",
+            "ecommerce_order_promocode": d.PromoCode || "",
+            "ecommerce_order_return_date": d.DepartDt || "",
+            "ecommerce_order_roomtype": d.RoomName || "",
+            "ecommerce_order_order_total": d.TotalCostWithTax.toString() || "",
+            "ecommerce_product_id": [d.HOTEL_ID] || "",
+            "ecommerce_product_name": [d.HName] || "",
+            "ecommerce_product_price": [d.TotalCostWithTax] || "",
+            "ecommerce_product_quantity": ["1"],
+            "ibe_version": "sabre",
+            "page_country": d.LangCode.slice(-2) || "",
+            "page_funnel": "club only",
+            "page_language": d.LangCode.slice(0,2) || "",
+            "page_subtype": event || "",
+            "page_type": "sabre ibe",
+            "roomcode": d.RoomCode || ""
+        };
+        console.log(trackingDataConfirm);
+        window.utag_data = trackingDataConfirm;
+        window.utag.view(trackingDataConfirm);
+    }
+}
+
+
+);
+    console.log("dataStream extension done");
+}
