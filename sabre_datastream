@@ -55,7 +55,7 @@ window.dataStream.subscribe('tealium', ['app', 'checkout', 'addons', 'confirmati
             "page_language": d.LangCode.slice(0,2) || "",
             "page_subtype": event || "",            
             "page_type": "sabre ibe",
-            "page_virtual_path": "/sabre/" + event,
+            "page_virtual_path": "/sabre/" + event, // virtual page path for tracking in google analytics
             "roomcode": d.RoomCode || ""
         };
         console.log(trackingData);
