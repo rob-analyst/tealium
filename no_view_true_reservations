@@ -1,0 +1,6 @@
+if (window.location.href.indexOf('reservations') > 0) 
+{
+window.utag_cfg_ovrd = window.utag_cfg_ovrd || {};
+window.utag_cfg_ovrd.noview = true;
+console.log("noview = true");
+}
