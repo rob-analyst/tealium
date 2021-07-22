@@ -3,6 +3,12 @@ console.log("hello");
 
 console.log("hello again");
 
+function howardCarpendale() {
+    console.log("Ich sag' einfach hello Again");
+}
+
+howardCarpendale();
+
 // test test
 console.log("this is another test");
 
