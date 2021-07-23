@@ -19,10 +19,16 @@ window.dataStream.subscribe('tealium', ['app', 'checkout', 'addons', 'confirmati
     function ec_action(event) {
         if (event === 'app' || event === 'checkout' || event === 'addons') {
             return 'checkout';
-        } else if (event === 'confirmation') {
-            return 'purchase';
         } else {
-            return 'unknown';
+            return 'purchase';
+        }
+    }
+    // Function that sets the order_id by event since Sabre sets order id early and leads to more purchase events in tealium GA tag
+    function order_id(event) {
+        if (event === 'app' || event === 'checkout' || event === 'addons') {
+            return '';
+        } else {
+            return d.ItineraryNo;
         }
     }
     // Creation of the utag_data data layer
@@ -39,7 +45,7 @@ window.dataStream.subscribe('tealium', ['app', 'checkout', 'addons', 'confirmati
             //"ecommerce_order_days_until_departure": d.DaysToCheckIn.toString() || "", Not always defined and breaks the setup
             "ecommerce_order_departure_date": d.ArrivalDt || "",
             "ecommerce_order_duration_in_nights": d.NightsQty.toString() || "",
-            "ecommerce_order_id": d.ItineraryNo || "",
+            "ecommerce_order_id": order_id(event) || "",
             "ecommerce_order_number_of_rooms": d.RmQty.toString() || "",
             "ecommerce_order_pax": d.GuestQty.toString() || "",
             "ecommerce_order_return_date": d.DepartDt || "",
