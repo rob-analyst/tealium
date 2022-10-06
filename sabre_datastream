@@ -54,6 +54,7 @@ window.dataStream.subscribe('tealium', ['app', 'checkout', 'addons', 'confirmati
             "ecommerce_product_brand": brand_test(d.ConfigCode) || "",
             "ecommerce_product_id": [d.HOTEL_ID] || "",
             "ecommerce_product_name": [d.HName] || "",
+            "ecommerce_product_name_short": d.HName.replaceAll("TUI MAGIC LIFE ", "").replaceAll("ROBINSON ", "").replaceAll("TUI BLUE ", "") || "",
             "ecommerce_product_price": [d.TotalCostWithTax.toString()] || "",
             "ecommerce_product_quantity": ["1"] || "",
             "ibe_version": "sabre",
