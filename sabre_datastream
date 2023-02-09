@@ -1,5 +1,5 @@
 // dataStream.subscribe for Sabre implementation
-if (window.location.href.indexOf('reservations') > 0) 
+if (window.location.href.indexOf('reservations') > 0 || window.location.href.indexOf('synxis') > 0) 
 {
 window.dataStream.subscribe('tealium', ['app', 'checkout', 'addons', 'confirmation'], function(data, event){
     var d = data;
@@ -51,6 +51,7 @@ window.dataStream.subscribe('tealium', ['app', 'checkout', 'addons', 'confirmati
             "ecommerce_order_return_date": d.DepartDt || "",
             "ecommerce_order_roomtype": d.RoomName || "",            
             "ecommerce_order_total": d.TotalCostWithTax.toString() || "",
+            "ecommerce_order_promocode": d.PromoCode,
             "ecommerce_product_brand": brand_test(d.ConfigCode) || "",
             "ecommerce_product_id": [d.HOTEL_ID] || "",
             "ecommerce_product_name": [d.HName] || "",
